@@ -9,6 +9,12 @@ import hashlib
 import xml.etree.ElementTree as ET
 import time
 
+@app.route('/')
+def index():
+    return "Hello World!"
+
+
+
 @app.route('/weixin',methods=['GET','POST'])
 def wechat_auth():
     if request.method == 'GET':
