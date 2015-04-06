@@ -26,8 +26,6 @@ def wechat_auth():
 		timestamp = data.get('timestamp', '')
 		nonce = data.get('nonce', '')
 		echostr = data.get('echostr', '')
-		rec = request.stream.read()
-		body_text = ET.fromstring(rec)
 		# 加密过程
 		#1. 将token、timestamp、nonce三个参数进行字典序排序
 		#2. 将三个参数字符串拼接成一个字符串进行sha1加密
@@ -40,7 +38,7 @@ def wechat_auth():
 
 	#post方法:
 	# Get the infomations from the recv_xml.
-	#body_text = ET.fromstring(request.data)
+	body_text = ET.fromstring(request.data)
 
 	# 实例化 wechat
 	wechat = WechatBasic(token=token)
