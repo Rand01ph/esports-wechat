@@ -19,8 +19,10 @@ def index():
 
 @app.route('/weixin', methods=['GET', 'POST'])
 def wechat_auth():
+
+	token = 'esportswechat' # your token
+
 	if request.method == 'GET':
-		token = 'esportswechat'  # your token
 		data = request.args  # GET 方法附上的参数
 		signature = data.get('signature', '')
 		timestamp = data.get('timestamp', '')
@@ -39,7 +41,7 @@ def wechat_auth():
 	#post方法:
 	#Get the infomations from the recv_xml.
 
-	wechat = WechatBasic(token='esportswechat')
+	wechat = WechatBasic(token=token)
 	wechat.parse_data(request.data)
 	message = wechat.get_message()
 
