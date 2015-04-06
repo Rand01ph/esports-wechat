@@ -37,7 +37,6 @@ def wechat_auth():
 		#if (hashlib.sha1(s).hexdigest() == signature):
 		#	return make_response(echostr)  #返回echostr参数内容，则接入生效
 
-
 	#post方法:
 	# Get the infomations from the recv_xml.
 	#body_text = ET.fromstring(request.data)
@@ -63,4 +62,4 @@ def wechat_auth():
 			response = wechat.response_text(u'未知')
 
 		# 现在直接将 response 变量内容直接作为 HTTP Response 响应微信服务器即可，此处为了演示返回内容，直接将响应进行输出
-		return response
+		print response
