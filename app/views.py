@@ -39,12 +39,12 @@ def wechat_auth():
 
 	#post方法:
 	#Get the infomations from the recv_xml.
-
 	# 实例化 wechat
 	wechat = WechatBasic(token=token)
 	# 对签名进行校验
 	if wechat.check_signature(signature=signature, timestamp=timestamp, nonce=nonce):
 		# 对 XML 数据进行解析 (必要, 否则不可执行 response_text, response_image 等操作)
+		return 'hello'
 		wechat.parse_data(body_text)
 		# 获得解析结果, message 为 WechatMessage 对象 (wechat_sdk.messages中定义)
 		message = wechat.get_message()
