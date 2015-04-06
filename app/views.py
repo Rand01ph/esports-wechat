@@ -5,44 +5,54 @@ from flask import render_template, flash, redirect, request, Flask, g, make_resp
 from app import app
 
 
+from wechat_sdk import WechatBasic
+
 import hashlib
 import xml.etree.ElementTree as ET
 import time
 
+
 @app.route('/')
 def index():
-    return "Hello World!"
+	return "Hello World!"
 
 
-
-@app.route('/weixin',methods=['GET','POST'])
+@app.route('/weixin', methods=['GET', 'POST'])
 def wechat_auth():
-    if request.method == 'GET':
-        token='esportswechat'
-        data = request.args
-        signature = data.get('signature','')
-        timestamp = data.get('timestamp','')
-        nonce = data.get('nonce','')
-        echostr = data.get('echostr','')
-        s = [timestamp,nonce,token]
-        s.sort()
-        s = ''.join(s)
-        if (hashlib.sha1(s).hexdigest() == signature):
-            return make_response(echostr)
-    else:
-        rec = request.stream.read()
-        xml_rec = ET.fromstring(rec)
-        tou = xml_rec.find('ToUserName').text
-        fromu = xml_rec.find('FromUserName').text
+	if request.method == 'GET':
+		token = 'esportswechat'  # your token
+		data = request.args  # GET 方法附上的参数
+		signature = data.get('signature', '')
+		timestamp = data.get('timestamp', '')
+		nonce = data.get('nonce', '')
+		echostr = data.get('echostr', '')
+		# 加密过程
+		#1. 将token、timestamp、nonce三个参数进行字典序排序
+		#2. 将三个参数字符串拼接成一个字符串进行sha1加密
+		#3. 开发者获得加密后的字符串可与signature对比，标识该请求来源于微信
+		s = [timestamp, nonce, token]
+		s.sort()
+		s = ''.join(s)
+		if (hashlib.sha1(s).hexdigest() == signature):
+			return make_response(echostr)  #返回echostr参数内容，则接入生效
 
 
-        if  xml_rec.find('EventKey') is None:
-            contents = u'谢谢关注'
+	#post方法:
+	# Get the infomations from the recv_xml.
+	xml_recv = ET.fromstring(request.data)
+
+	ToUserName = xml_recv.find("ToUserName").text
+	FromUserName = xml_recv.find("FromUserName").text
+	MsgType = xml_recv.find("MsgType").text
+	Content = xml_recv.find("Content").text
+
+	if Content == 'h':
+		contents = u'电竞助手 测试版'
 
 
-        return render_template('reply_text.xml',
-        toUser = fromu,
-        fromUser = tou,
-        createtime = str(int(time.time())),
-        content = contents
-        )
+	return render_template('reply_text.xml',
+    toUser=FromUserName,
+    fromUser=ToUserName,
+    createtime=str(int(time.time())),
+    content=contents
+	)
