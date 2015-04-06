@@ -26,33 +26,41 @@ def wechat_auth():
 		timestamp = data.get('timestamp', '')
 		nonce = data.get('nonce', '')
 		echostr = data.get('echostr', '')
+		body_text = ET.fromstring(request.data)
 		# 加密过程
 		#1. 将token、timestamp、nonce三个参数进行字典序排序
 		#2. 将三个参数字符串拼接成一个字符串进行sha1加密
 		#3. 开发者获得加密后的字符串可与signature对比，标识该请求来源于微信
-		s = [timestamp, nonce, token]
-		s.sort()
-		s = ''.join(s)
-		if (hashlib.sha1(s).hexdigest() == signature):
-			return make_response(echostr)  #返回echostr参数内容，则接入生效
+		#s = [timestamp, nonce, token]
+		#s.sort()
+		#s = ''.join(s)
+		#if (hashlib.sha1(s).hexdigest() == signature):
+		#	return make_response(echostr)  #返回echostr参数内容，则接入生效
 
 
 	#post方法:
 	# Get the infomations from the recv_xml.
-	xml_recv = ET.fromstring(request.data)
+	#body_text = ET.fromstring(request.data)
 
-	ToUserName = xml_recv.find("ToUserName").text
-	FromUserName = xml_recv.find("FromUserName").text
-	MsgType = xml_recv.find("MsgType").text
-	Content = xml_recv.find("Content").text
+	# 实例化 wechat
+	wechat = WechatBasic(token=token)
+	# 对签名进行校验
+	if wechat.check_signature(signature=signature, timestamp=timestamp, nonce=nonce):
+		# 对 XML 数据进行解析 (必要, 否则不可执行 response_text, response_image 等操作)
+		wechat.parse_data(body_text)
+		# 获得解析结果, message 为 WechatMessage 对象 (wechat_sdk.messages中定义)
+		message = wechat.get_message()
 
-	if Content == 'h':
-		contents = u'电竞助手 测试版'
+		response = None
+		if message.type == 'text':
+			if message.content == 'wechat':
+				response = wechat.response_text(u'^_^')
+			else:
+				response = wechat.response_text(u'文字')
+		elif message.type == 'image':
+			response = wechat.response_text(u'图片')
+		else:
+			response = wechat.response_text(u'未知')
 
-
-	return render_template('reply_text.xml',
-    toUser=FromUserName,
-    fromUser=ToUserName,
-    createtime=str(int(time.time())),
-    content=contents
-	)
+		# 现在直接将 response 变量内容直接作为 HTTP Response 响应微信服务器即可，此处为了演示返回内容，直接将响应进行输出
+		return response
