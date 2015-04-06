@@ -35,12 +35,21 @@ def wechat_auth():
 		#s = ''.join(s)
 		#if (hashlib.sha1(s).hexdigest() == signature):
 		#	return make_response(echostr)  #返回echostr参数内容，则接入生效
+		body_text = """
+<xml>
+<ToUserName><![CDATA[touser]]></ToUserName>
+<FromUserName><![CDATA[fromuser]]></FromUserName>
+<CreateTime>1405994593</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[wechat]]></Content>
+<MsgId>6038700799783131222</MsgId>
+</xml>
+"""
 
 	#post方法:
 	# Get the infomations from the recv_xml.
-	rec = request.stream.read()
-	xml_rec = ET.fromstring(rec)
-	return xml_rec
+
+
 	# 实例化 wechat
 	wechat = WechatBasic(token=token)
 	# 对签名进行校验
