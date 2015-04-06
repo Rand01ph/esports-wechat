@@ -37,9 +37,10 @@ def wechat_auth():
 			return make_response(echostr)  #返回echostr参数内容，则接入生效
 
 	#post方法:
-	# Get the infomations from the recv_xml.
+	#Get the infomations from the recv_xml.
 	xml_recv = ET.fromstring(request.data)
-	return xml_recv
+	return 'hello'
+
 
 	# 实例化 wechat
 	wechat = WechatBasic(token=token)
