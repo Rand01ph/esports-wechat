@@ -39,8 +39,7 @@ def wechat_auth():
 	#post方法:
 	# Get the infomations from the recv_xml.
 	rec = request.stream.read()
-	print rec
-	print ET.fromstring(request.data)
+	body_text = ET.fromstring(rec)
 
 	# 实例化 wechat
 	wechat = WechatBasic(token=token)
