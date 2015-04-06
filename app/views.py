@@ -38,7 +38,7 @@ def wechat_auth():
 
 	#post方法:
 	#Get the infomations from the recv_xml.
-	return request.data
+	body_text = request.data
 
 
 	# 实例化 wechat
