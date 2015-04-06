@@ -38,5 +38,13 @@ def wechat_auth():
 
 	#post方法:
 	#Get the infomations from the recv_xml.
-	xml_recv = ET.fromstring(request.data)
-	return request.data
+
+	wechat = WechatBasic(token=token)
+	wechat.parse_data(request.data)
+	message = wechat.get_message()
+
+	response = None
+	if message.type == 'text':
+		response = wechat.response_text(u'文字')
+
+	return response
