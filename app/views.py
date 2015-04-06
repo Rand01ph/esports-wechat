@@ -39,7 +39,7 @@ def wechat_auth():
 	#post方法:
 	#Get the infomations from the recv_xml.
 
-	wechat = WechatBasic(token=token)
+	wechat = WechatBasic(token='esportswechat')
 	wechat.parse_data(request.data)
 	message = wechat.get_message()
 
