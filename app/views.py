@@ -39,7 +39,7 @@ def wechat_auth():
 	#post方法:
 	#Get the infomations from the recv_xml.
 	xml_recv = ET.fromstring(request.data)
-	return 'hello'
+	return xml_recv
 
 
 	# 实例化 wechat
