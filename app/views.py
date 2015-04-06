@@ -31,11 +31,11 @@ def wechat_auth():
 		#1. 将token、timestamp、nonce三个参数进行字典序排序
 		#2. 将三个参数字符串拼接成一个字符串进行sha1加密
 		#3. 开发者获得加密后的字符串可与signature对比，标识该请求来源于微信
-		#s = [timestamp, nonce, token]
-		#s.sort()
-		#s = ''.join(s)
-		#if (hashlib.sha1(s).hexdigest() == signature):
-		#	return make_response(echostr)  #返回echostr参数内容，则接入生效
+		s = [timestamp, nonce, token]
+		s.sort()
+		s = ''.join(s)
+		if (hashlib.sha1(s).hexdigest() == signature):
+			return make_response(echostr)  #返回echostr参数内容，则接入生效
 
 	#post方法:
 	#Get the infomations from the recv_xml.
