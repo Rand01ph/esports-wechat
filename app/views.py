@@ -62,6 +62,7 @@ def wechat_auth():
 			content = ""
 			for rank in ranks:
 				content += rank
+				content += '\n'
 			response = wechat.response_text(content)
 		else:
 			response = wechat.response_text(u'您发送的是文字消息')
