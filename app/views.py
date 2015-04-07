@@ -3,7 +3,7 @@ __author__ = 'Rand01ph'
 
 from flask import render_template, flash, redirect, request, Flask, g, make_response, redirect
 from app import app
-
+from . import dota2
 
 from wechat_sdk import WechatBasic
 
@@ -15,6 +15,13 @@ import time
 @app.route('/')
 def index():
 	return "Hello World!"
+
+
+@app.route('/dota2')
+def dota2():
+	ranks = dota2.dota2
+	render_template('dota2.html', content=ranks)
+
 
 
 @app.route('/weixin', methods=['GET', 'POST'])
