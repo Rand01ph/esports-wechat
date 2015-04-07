@@ -57,7 +57,7 @@ def wechat_auth():
 		if message.content == 'h':
 			response = wechat.response_text(u'电竞助手测试版，请输入如下指令：'
 			                                u'd2tr  返回dota2职业战队排名')
-		if message.content == 'd2tr':
+		elif message.content == 'd2tr':
 			ranks = dota2.team_rankings()
 			content = ""
 			for rank in ranks:
