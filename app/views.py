@@ -3,7 +3,7 @@ __author__ = 'Rand01ph'
 
 from flask import render_template, flash, redirect, request, Flask, g, make_response, redirect
 from app import app
-from . import dota2
+from dota2 import dota2
 
 from wechat_sdk import WechatBasic
 
@@ -18,9 +18,9 @@ def index():
 
 
 @app.route('/dota2')
-def dota2():
-	ranks = dota2.dota2
-	render_template('dota2.html', content=ranks)
+def dotasome():
+	ranks = dota2.team_rankings()
+	return render_template('dota2.html',ranks=ranks)
 
 
 
@@ -55,7 +55,14 @@ def wechat_auth():
 	response = None
 	if message.type == 'text':
 		if message.content == 'h':
-			response = wechat.response_text(u'电竞助手测试版，请输入如下指令：')
+			response = wechat.response_text(u'电竞助手测试版，请输入如下指令：'
+			                                u'd2tr  返回dota2职业战队排名')
+		if message.content == 'd2tr':
+			ranks = dota2.team_rankings()
+			content = ""
+			for rank in ranks:
+				content += rank
+			response = wechat.response_text(content)
 		else:
 			response = wechat.response_text(u'您发送的是文字消息')
 	elif message.type == 'image':
