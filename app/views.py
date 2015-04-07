@@ -47,6 +47,13 @@ def wechat_auth():
 
 	response = None
 	if message.type == 'text':
-		response = wechat.response_text(u'文字')
+		if message.content == 'h':
+			response = wechat.response_text(u'电竞助手测试版，请输入如下指令：')
+		else:
+			response = wechat.response_text(u'您发送的是文字消息')
+	elif message.type == 'image':
+		response = wechat.response_text(u'您发送的是图片消息')
+	else:
+		response = wechat.response_text(u'未知消息')
 
 	return response
