@@ -4,14 +4,14 @@ __author__ = 'Rand01ph'
 import requests
 import bs4
 
-class Dota2():
+class LOL():
 
 	def __init__(self):
 		pass
 
 
 	def team_rankings(self):
-		response = requests.get('http://www.gosugamers.net/dota2/rankings#team')
+		response = requests.get('http://www.gosugamers.net/lol/rankings#team')
 		soup = bs4.BeautifulSoup(response.text)
 		ranks = []
 		for i in soup.find_all('tr'):
@@ -19,4 +19,3 @@ class Dota2():
 				break
 			ranks.append("No.%s %s MMR %s\n"%(i.get_text().strip().split('\n\n')[0],i.get_text().strip().split('\n\n')[1].strip(),i.get_text().strip().split('\n\n')[2]))
 		return ranks
-
