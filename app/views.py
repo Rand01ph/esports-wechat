@@ -90,7 +90,7 @@ def wechat_auth():
 				content += rank
 			response = wechat.response_text(content)
 
-		elif message.content == 'd1lm':
+		elif message.content == 'd2lm':
 			dota2 = Dota2()
 			lives = dota2.live_matches()
 			content = ""
@@ -98,7 +98,7 @@ def wechat_auth():
 				content += live
 			response = wechat.response_text(content)
 
-		elif message.content == 'd1um':
+		elif message.content == 'd2um':
 			dota2 = Dota2()
 			upcomings = dota2.upcoming_matches()
 			content = ""
