@@ -62,11 +62,13 @@ def wechat_auth():
 	message = wechat.get_message()
 
 	response = None
+
 	if message.type == 'subscribe':  # 关注事件(包括普通关注事件和扫描二维码造成的关注事件)
 		if message.key and message.ticket:  # 如果 key 和 ticket 均不为空，则是扫描二维码造成的关注事件
-			response = wechat.response_text(content=u'感谢您的关注,输入h查看功能指令')
+			response = wechat.response_text(u'感谢您的关注,输入h查看功能指令')
 		else:
-			response = wechat.response_text(content=u'感谢您的关注,输入h查看功能指令')
+			response = wechat.response_text(u'感谢您的关注,输入h查看功能指令')
+
 	elif message.type == 'text':
 		if message.content == 'h':
 			response = wechat.response_text(u'电竞助手测试版，请输入如下指令：\n'
@@ -79,6 +81,7 @@ def wechat_auth():
 			for rank in ranks:
 				content += rank
 			response = wechat.response_text(content)
+
 		elif message.content == 'loltr':
 			lol = LOL()
 			ranks = lol.team_rankings()
@@ -86,6 +89,7 @@ def wechat_auth():
 			for rank in ranks:
 				content += rank
 			response = wechat.response_text(content)
+
 		else:
 			response = wechat.response_text(u'您发送的是文字消息')
 	elif message.type == 'image':
