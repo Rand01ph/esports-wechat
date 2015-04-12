@@ -5,10 +5,26 @@
     <title></title>
 </head>
 <body>
-<p>dota2</p>
+
+<p>Dota2</p>
+
+<h1>Team Ranking</h1>
 <ul>
 {% for rank in ranks %}
 <li>{{ rank }}</li> {% endfor %}
 </ul>
+
+<h1>Live Matches</h1>
+<ul>
+{% for live in lives %}
+<li>{{ live }}</li> {% endfor %}
+</ul>
+
+<h1>Upcoming Matches</h1>
+<ul>
+{% for upcoming in upcomings %}
+<li>{{ upcoming }}</li> {% endfor %}
+</ul>
+
 </body>
 </html>

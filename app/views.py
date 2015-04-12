@@ -22,14 +22,18 @@ def index():
 def dotasome():
 	dota2 = Dota2()
 	ranks = dota2.team_rankings()
-	return render_template('dota2.html',ranks=ranks)
+	lives = dota2.live_matches()
+	upcomings = dota2.upcoming_matches()
+	return render_template('dota2.html', ranks=ranks, lives=lives, upcomings=upcomings)
 
 
 @app.route('/lol')
 def lolsome():
 	lol = LOL()
 	ranks = lol.team_rankings()
-	return render_template('lol.html',ranks=ranks)
+	lives = lol.live_matches()
+	upcomings = lol.upcoming_matches()
+	return render_template('lol.html', ranks=ranks, lives=lives, upcomings=upcomings)
 
 
 
@@ -73,13 +77,33 @@ def wechat_auth():
 		if message.content == 'h':
 			response = wechat.response_text(u'电竞助手测试版，请输入如下指令：\n'
 			                                u'd2tr  返回dota2职业战队排名\n'
-			                                u'loltr 返回lol职业战队排名')
+			                                u'd2lm 查询正在进行的Dota2比赛\n'
+			                                u'd2um 查询即将进行的Dota2比赛\n'
+			                                u'loltr  返回LOL职业战队排名\n'
+			                                u'lollm 查询正在进行的LOL比赛\n'
+			                                u'lolum 查询即将进行的LOL比赛\n')
 		elif message.content == 'd2tr':
 			dota2 = Dota2()
 			ranks = dota2.team_rankings()
 			content = ""
 			for rank in ranks:
 				content += rank
+			response = wechat.response_text(content)
+
+		elif message.content == 'd1lm':
+			dota2 = Dota2()
+			lives = dota2.live_matches()
+			content = ""
+			for live in lives:
+				content += live
+			response = wechat.response_text(content)
+
+		elif message.content == 'd1um':
+			dota2 = Dota2()
+			upcomings = dota2.upcoming_matches()
+			content = ""
+			for upcoming in upcomings:
+				content += upcoming
 			response = wechat.response_text(content)
 
 		elif message.content == 'loltr':
@@ -89,6 +113,23 @@ def wechat_auth():
 			for rank in ranks:
 				content += rank
 			response = wechat.response_text(content)
+
+		elif message.content == 'lollm':
+			lol = LOL()
+			lives = lol.live_matches()
+			content = ""
+			for live in lives:
+				content += live
+			response = wechat.response_text(content)
+
+		elif message.content == 'lolum':
+			lol = LOL()
+			upcomings = lol.upcoming_matches()
+			content = ""
+			for upcoming in upcomings:
+				content += upcoming
+			response = wechat.response_text(content)
+
 
 		else:
 			response = wechat.response_text(u'您发送的是文字消息')
