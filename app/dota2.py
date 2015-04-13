@@ -24,10 +24,14 @@ class Dota2():
 		soup = bs4.BeautifulSoup(response.text)
 		lives = []
 		for i in soup.find('h1').parent.find_all('a'):
-			if len(i.get_text().strip().split('\n\n')) > 1:
-				lives.append("%s VS %s\n"%(i.get_text().strip().split('\n\n')[0].split('\n')[0], i.get_text().strip().split('\n\n')[1]))
-			else:
-				continue
+			try:
+				if len(i.get_text().strip().split('\n\n')) > 1:
+					lives.append("%s VS %s\n"%(i.get_text().strip().split('\n\n')[0].split('\n')[0], i.get_text().strip().split('\n\n')[1]))
+				else:
+					continue
+			except AttributeError:
+				lives.append(u"暂时没有正在进行的比赛")
+				break
 		return lives
 
 
