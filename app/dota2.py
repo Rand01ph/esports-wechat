@@ -31,7 +31,6 @@ class Dota2():
 					continue
 			except AttributeError:
 				lives.append(u"暂时没有正在进行的比赛")
-				break
 		return lives
 
 
