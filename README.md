@@ -1,2 +1,5 @@
 # esports-wechat
-电子竞技平台微信版
+
+电竞助手
+
+基于flask开发
